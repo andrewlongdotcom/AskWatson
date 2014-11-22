@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="AskWatson.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AskWatson"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="Watson"
+                   Style="{StaticResource HeaderTextBlockStyle}" />
+        
+        <ScrollViewer Grid.Row="1">
+            <ListView x:Name="ServicesListView"
+                  SelectionChanged="ServicesListView_SelectionChanged">
+                <ListViewItem Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="Question and Answer" Style="{StaticResource SubheaderTextBlockStyle}" />
+                        <TextBlock Text="Direct responses to user inquiries fueled by primary document sources."
+                                   TextWrapping="Wrap"
+                                   Style="{StaticResource BodyTextBlockStyle}" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="User Modeling" Style="{StaticResource SubheaderTextBlockStyle}" />
+                        <TextBlock Text="Improved understanding of people's preferences to help engage users on their own terms."
+                                   TextWrapping="Wrap"
+                                   Style="{StaticResource BodyTextBlockStyle}" />
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</Page>
