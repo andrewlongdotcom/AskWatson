@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="AskWatson.QuestionAnswer.Index"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AskWatson.QuestionAnswer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:AskWatson.UserControls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="{StaticResource ApplicationName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="q &amp; a service" Margin="0,-6.5,0,0" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <StackPanel>
+                <TextBlock Text="Category:"
+                       Style="{StaticResource ControlHeaderTextBlockStyle}" />
+                <ComboBox x:Name="CategoryComboBox" SelectedIndex="0">
+                    <ComboBoxItem>Healthcare</ComboBoxItem>
+                    <ComboBoxItem>Travel</ComboBoxItem>
+                </ComboBox>
+
+                <TextBlock Text="Question:"
+                       Style="{StaticResource ControlHeaderTextBlockStyle}" />
+                <TextBox x:Name="QuestionTextBox" />
+                <Button x:Name="AskWatsonButton"
+                    Content="Ask Watson"
+                    Margin="0"
+                    HorizontalAlignment="Stretch"
+                    Click="AskWatsonButton_Click"/>
+
+                <StackPanel x:Name="SearchingStackPanel"
+                        Margin="0,24"
+                        Visibility="Collapsed">
+                    <ProgressBar IsIndeterminate="True"
+                             Foreground="{StaticResource PhoneAccentBrush}" />
+                    <TextBlock HorizontalAlignment="Center"
+                           Style="{StaticResource ControlHeaderTextBlockStyle}"
+                           Text="Asking Watson..." />
+                </StackPanel>
+            </StackPanel>
+            
+            <ScrollViewer Grid.Row="1">
+                <ListView x:Name="AnswersListView"
+                      SelectionChanged="AnswersListView_SelectionChanged"
+                      VerticalAlignment="Stretch">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="{Binding title}"
+                                           TextWrapping="NoWrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           Style="{StaticResource SubheaderTextBlockStyle}" />
+                                <TextBlock Text="{Binding text}"
+                                           TextWrapping="NoWrap"
+                                           TextTrimming="WordEllipsis"
+                                           Style="{StaticResource BodyTextBlockStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+        
+        <userControls:AdBannerUserControl Grid.Row="2" />
+    </Grid>
+</Page>

@@ -5,19 +5,23 @@
     xmlns:local="using:AskWatson"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:AskWatson.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="12">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Text="Watson"
-                   Style="{StaticResource HeaderTextBlockStyle}" />
-        
-        <ScrollViewer Grid.Row="1">
+
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="{StaticResource ApplicationName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="home" Margin="0,-6.5,0,0" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Margin="19,9.5,19,0">
             <ListView x:Name="ServicesListView"
                   SelectionChanged="ServicesListView_SelectionChanged">
                 <ListViewItem Margin="0,0,0,12">
@@ -28,15 +32,26 @@
                                    Style="{StaticResource BodyTextBlockStyle}" />
                     </StackPanel>
                 </ListViewItem>
-                <ListViewItem Margin="0,0,0,12">
+                <!--<ListViewItem Margin="0,0,0,12">
                     <StackPanel>
                         <TextBlock Text="User Modeling" Style="{StaticResource SubheaderTextBlockStyle}" />
                         <TextBlock Text="Improved understanding of people's preferences to help engage users on their own terms."
                                    TextWrapping="Wrap"
                                    Style="{StaticResource BodyTextBlockStyle}" />
                     </StackPanel>
-                </ListViewItem>
+                </ListViewItem>-->
             </ListView>
         </ScrollViewer>
+
+        <userControls:AdBannerUserControl Grid.Row="2" />
     </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="aboutAppBarButton"
+                          Label="about"
+                          Click="aboutAppBarButton_Click"
+                          Icon="Help" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

@@ -5,21 +5,24 @@
     xmlns:local="using:AskWatson.QuestionAnswer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:AskWatson.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="12">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
         
         <TextBlock Text="{Binding title}"
+                   Margin="19,0,0,0"
                    Style="{StaticResource HeaderTextBlockStyle}"
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"/>
         
-        <ScrollViewer Grid.Row="1" Margin="0,24,0,12">
+        <ScrollViewer Grid.Row="1" Margin="19,9.5,19,0">
             <StackPanel>
                 <TextBlock Text="{Binding title}"
                            Style="{StaticResource SubheaderTextBlockStyle}"
@@ -30,5 +33,7 @@
                            TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
+        
+        <userControls:AdBannerUserControl Grid.Row="2" />
     </Grid>
 </Page>

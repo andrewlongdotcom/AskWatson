@@ -28,15 +28,6 @@ namespace AskWatson
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-        }
-
         private async void ServicesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ServicesListView.SelectedItem == null)
@@ -48,15 +39,21 @@ namespace AskWatson
             {
                 case 0:
                     // question and answer
-                    Frame.Navigate(typeof(QuestionAnswer.MainPage));
+                    Frame.Navigate(typeof(QuestionAnswer.Index));
                     break;
                 default:
-                    MessageDialog notAvailableDialog = new MessageDialog("This demo is not yet available");
-                    await notAvailableDialog.ShowAsync();
+                    //MessageDialog notAvailableDialog = new MessageDialog("This demo is not yet available");
+                    //await notAvailableDialog.ShowAsync();
+                    Frame.Navigate(typeof(UserModeling.Index));
                     break;
             }
 
             ServicesListView.SelectedItem = null;
+        }
+
+        private void aboutAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(About));
         }
     }
 }

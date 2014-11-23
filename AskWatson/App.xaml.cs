@@ -38,6 +38,7 @@ namespace AskWatson
         }
 
         #region Q/A data
+        public static string CurrentSearchCategory { get; set; }
         public static Portable.Models.Rootobject CurrentQuestionAnswerSearch { get; set; }
         public static Portable.Models.Evidencelist SelectedEvidencelist { get; set; }
         #endregion

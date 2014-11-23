@@ -14,15 +14,20 @@ namespace AskWatson.Portable
     {
         #region privates
         private static string urlBase_ = "https://gateway.watsonplatform.net/qagw/service";
-        private static string username_ = "{your_service_username}";
-        private static string password_ = "{your_service_password}";
+        private static string username_ = null;
+        private static string password_ = null;
         #endregion
 
         #region public methods
+        // Method to call the Watson Question and Answer service
         public static async Task<Models.Rootobject> AskWatson(
             string knowledgeDomain,
             string question)
         {
+            // TODO: enter your own service-specific credentials
+            username_ = "{yourserviceusername}";
+            password_ = "{yourservicepassword}";
+            
             knowledgeDomain = knowledgeDomain.ToLower();
             string jsonRequestString = "{\"question\": {\"questionText\": \"" + question.Replace("\"", "'") + "\"}}";
 
