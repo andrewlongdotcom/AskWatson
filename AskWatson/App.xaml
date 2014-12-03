@@ -6,5 +6,11 @@
 
     <Application.Resources>
         <x:String x:Key="ApplicationName">ASK WATSON</x:String>
+        
+        <!-- twitter credentials -->
+        <x:String x:Key="TwitterConsumerKey">yourConsumerKey</x:String>
+        <x:String x:Key="TwitterConsumerSecret">yourConsumerSecret</x:String>
+        <x:String x:Key="TwitterAccessToken">yourAccessToken</x:String>
+        <x:String x:Key="TwitterAccessTokenSecret">yourAccessTokenSecret</x:String>
     </Application.Resources>
 </Application>
