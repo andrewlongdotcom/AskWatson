@@ -162,7 +162,7 @@ namespace AskWatson.QuestionAnswer
                 return;
             }
 
-            App.SelectedEvidencelist = (Portable.Models.Evidencelist)AnswersListView.SelectedItem;
+            App.SelectedEvidencelist = (Portable.Models.AskWatsonResponse.Evidencelist)AnswersListView.SelectedItem;
             Frame.Navigate(typeof(QuestionAnswer.AnswerDetails));
 
             AnswersListView.SelectedItem = null;

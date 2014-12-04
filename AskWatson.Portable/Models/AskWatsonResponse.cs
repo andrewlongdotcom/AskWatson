@@ -5,14 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AskWatson.Portable.Models
+namespace AskWatson.Portable.Models.AskWatsonResponse
 {
-    public class AskWatsonResponse
-    {
-        //public Rootobject[] Response { get; set; }
-        public Question question { get; set; }
-    }
-
     public class Rootobject
     {
         public Question question { get; set; }

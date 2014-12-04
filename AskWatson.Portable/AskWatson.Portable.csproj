@@ -41,6 +41,7 @@
     <Compile Include="AskWatsonService.cs" />
     <Compile Include="Converters\SingleValueArrayConverter.cs" />
     <Compile Include="Models\AskWatsonResponse.cs" />
+    <Compile Include="Models\UserModelingResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

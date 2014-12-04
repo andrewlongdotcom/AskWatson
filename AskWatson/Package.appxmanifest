@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="andrewlong.comLLC.AskWatson" Publisher="CN=B6DB2E56-0BBE-44DF-9504-22CD4770DC8D" Version="1.0.0.0" />
+  <Identity Name="andrewlong.comLLC.AskWatson" Publisher="CN=B6DB2E56-0BBE-44DF-9504-22CD4770DC8D" Version="1.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="a16e988f-c3f0-492b-b2b1-15354f9b1104" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Ask Watson</DisplayName>

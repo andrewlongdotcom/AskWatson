@@ -5,9 +5,15 @@
     xmlns:local="using:AskWatson.UserModeling"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:AskWatson.UserControls"
+    xmlns:localConverters="using:AskWatson.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <UserControl.Resources>
+        <localConverters:PercentageConverter x:Key="percentageConverter" />
+    </UserControl.Resources>
+    
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
@@ -30,6 +36,11 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
             <StackPanel>
                 <TextBlock Text="Twitter username:"
                            Style="{StaticResource ControlHeaderTextBlockStyle}" />
@@ -38,7 +49,103 @@
                         HorizontalAlignment="Stretch"
                         Click="ModelUserButton_Click"
                         Content="Model User" />
+
+                <StackPanel Grid.Row="1"
+                            Margin="0,24"
+                            Visibility="Collapsed"
+                            x:Name="updateProgressStackPanel">
+                    <ProgressBar IsIndeterminate="True"
+                                 Foreground="{StaticResource PhoneAccentBrush}"/>
+                    <TextBlock x:Name="progressTextBlock"
+                               Text="searching for user..."
+                               HorizontalAlignment="Center"
+                               Style="{StaticResource ControlHeaderTextBlockStyle}" />
+                </StackPanel>
             </StackPanel>
+            
+            <ScrollViewer Grid.Row="1" x:Name="detailsScrollViewer" Visibility="Collapsed">
+                <StackPanel>
+                    <ListView x:Name="personalitiesListView">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding name}" Style="{StaticResource HeaderTextBlockStyle}" />
+                                <ListView ItemsSource="{Binding children}" Margin="12,0,0,0">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding name}" 
+                                                               Style="{StaticResource SubheaderTextBlockStyle}"
+                                                               TextWrapping="Wrap"
+                                                               VerticalAlignment="Top"/>
+                                                    <TextBlock Text="{Binding percentage, Converter={StaticResource percentageConverter}}"
+                                                               Grid.Column="1"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               Style="{StaticResource ControlHeaderTextBlockStyle}" />
+                                                </Grid>
+                                                <ListView ItemsSource="{Binding children}" Margin="24,0,0,0">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Text="{Binding name}" 
+                                                                               Style="{StaticResource BodyTextBlockStyle}"
+                                                                               TextWrapping="Wrap"
+                                                                               VerticalAlignment="Top"/>
+                                                                    <TextBlock Text="{Binding percentage, Converter={StaticResource percentageConverter}}"
+                                                                               Grid.Column="1"
+                                                                               HorizontalAlignment="Right"
+                                                                               VerticalAlignment="Center"
+                                                                               Style="{StaticResource ControlHeaderTextBlockStyle}" />
+                                                                </Grid>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                    <Button x:Name="visualizeButton"
+                            Click="visualizeButton_Click"
+                            HorizontalAlignment="Stretch"
+                            Content="Visualize Modeling Data" />
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
+        
+        <userControls:AdBannerUserControl Grid.Row="2" />
     </Grid>
 </Page>

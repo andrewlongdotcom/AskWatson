@@ -42,8 +42,7 @@ namespace AskWatson
                     Frame.Navigate(typeof(QuestionAnswer.Index));
                     break;
                 default:
-                    //MessageDialog notAvailableDialog = new MessageDialog("This demo is not yet available");
-                    //await notAvailableDialog.ShowAsync();
+                    // user modeling
                     Frame.Navigate(typeof(UserModeling.Index));
                     break;
             }

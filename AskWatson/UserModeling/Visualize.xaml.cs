@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Email;
-using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
-using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,17 +18,17 @@ using Windows.UI.Xaml.Navigation;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace AskWatson
+namespace AskWatson.UserModeling
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class About : Page
+    public sealed partial class Visualize : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public About()
+        public Visualize()
         {
             this.InitializeComponent();
 
@@ -100,18 +96,15 @@ namespace AskWatson
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            copyrightTextBlock.Text = string.Format(
-                "copyright {0}",
-                DateTime.Today.Year);
+            string html = await AskWatson.Portable.AskWatsonService.VisualizeUserModel(
+                App.CurrentModelingResponse,
+                1600,
+                960,
+                App.CurrentModelingUserProfileImageUrl);
 
-            versionNumberTextBlock.Text = string.Format(
-                "version {0}.{1}.{2}.{3}",
-                Package.Current.Id.Version.Major,
-                Package.Current.Id.Version.Minor,
-                Package.Current.Id.Version.Build,
-                Package.Current.Id.Version.Revision);
+            visualizeWebView.NavigateToString(html);
 
             this.navigationHelper.OnNavigatedTo(e);
         }
@@ -123,43 +116,10 @@ namespace AskWatson
 
         #endregion
 
-        private async void feedbackHyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void visualizeWebView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
-            EmailRecipient sendTo = new EmailRecipient()
-            {
-                Address = "along@andrewlong.com"
-            };
-
-            EmailMessage mailMessage = new EmailMessage()
-            {
-                Subject = "Ask Watson Feedback/Support"
-            };
-
-            mailMessage.To.Add(sendTo);
-
-            await EmailManager.ShowComposeNewEmailAsync(mailMessage);
-        }
-
-        private async void otherAppsHyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Windows.System.Launcher.LaunchUriAsync(
-                new Uri("ms-windows-store:search?publisher=andrewlong.com, LLC"));
-        }
-
-        private async void rateReviewHyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Windows.System.Launcher.LaunchUriAsync(
-                new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
-        }
-
-        private async void twitterHyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("http://twitter.com/andrew_long"));
-        }
-
-        private async void ibmBluemixHyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://www.ibm.com/developerworks/cloud/bluemix/?cm_mmc=dw-_-bluemix-_-CatchyEvangelist4-_-social"));
+            loadingProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            visualizeWebView.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
     }
 }

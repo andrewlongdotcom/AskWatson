@@ -1,9 +1,12 @@
 ﻿using AskWatson.Common;
+using LinqToTwitter;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -97,8 +100,25 @@ namespace AskWatson.UserModeling
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override  void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                // we should have the current modeling data available, reload it
+                Portable.Models.UserModelingResponse.Rootobject userModel = null;
+                
+                userModel = Portable.AskWatsonService.ModelUser(App.CurrentModelingResponse);
+
+                if (userModel != null &&
+                    userModel.tree.children != null &&
+                    userModel.tree.children.Count() > 0)
+                {
+                    TwitterUsernameTextBox.Text = App.CurrentModelingUsername; 
+                    personalitiesListView.ItemsSource = userModel.tree.children;
+                    detailsScrollViewer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                }
+            }
+
             this.navigationHelper.OnNavigatedTo(e);
         }
 
@@ -111,8 +131,95 @@ namespace AskWatson.UserModeling
 
         private async void ModelUserButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageDialog messageDialog = new MessageDialog("This feature is not yet implemented.");
-            await messageDialog.ShowAsync();
+            updateProgressStackPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            MessageDialog errorDialog = null;
+
+            // retrieve twitter user statuses
+            try
+            {
+                App.CurrentModelingUsername = TwitterUsernameTextBox.Text;
+                string statusesText = await _GetTwitterStatusText();
+                Portable.Models.UserModelingResponse.Rootobject userModel = null;
+                
+                if (!string.IsNullOrEmpty(statusesText))
+                {
+                    progressTextBlock.Text = "modeling user...";
+                    App.CurrentModelingResponse = await Portable.AskWatsonService.GetModelUserJsonResponse(statusesText);
+                    userModel = Portable.AskWatsonService.ModelUser(App.CurrentModelingResponse);
+
+                    if (userModel != null &&
+                        userModel.tree.children != null &&
+                        userModel.tree.children.Count() > 0)
+                    {
+                        personalitiesListView.ItemsSource = userModel.tree.children;
+                        detailsScrollViewer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    errorDialog = new MessageDialog("Unable to retrieve twitter user");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDialog = new MessageDialog(string.Format("Error: {0}", ex.Message));
+                errorDialog.ShowAsync();
+            }
+            finally
+            {
+                updateProgressStackPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            
+        }
+
+        //private async Task<string> _GetTwitterStatusText()
+        private async Task<string> _GetTwitterStatusText()
+        {
+            try
+            {
+                SingleUserAuthorizer singleUserAuthorizer = new SingleUserAuthorizer()
+                {
+                    CredentialStore = new SingleUserInMemoryCredentialStore()
+                    {
+                        ConsumerKey = Application.Current.Resources["TwitterConsumerKey"].ToString(),
+                        ConsumerSecret = Application.Current.Resources["TwitterConsumerSecret"].ToString(),
+                        AccessToken = Application.Current.Resources["TwitterAccessToken"].ToString(),
+                        AccessTokenSecret = Application.Current.Resources["TwitterAccessTokenSecret"].ToString()
+                    }
+                };
+
+                TwitterContext twitterContext = new TwitterContext(singleUserAuthorizer);
+
+                string screenName = (TwitterUsernameTextBox.Text.StartsWith("@")) ? TwitterUsernameTextBox.Text : string.Format("@{0}", TwitterUsernameTextBox.Text);
+
+                List<Status> twitterFeed = await (from tweet in twitterContext.Status
+                                                  where tweet.Type == StatusType.User && tweet.ScreenName == screenName
+                                                  select tweet).ToListAsync();
+
+                StringBuilder statusSb = new StringBuilder();
+
+                App.CurrentModelingUserProfileImageUrl = (twitterFeed.FirstOrDefault() == null) ? null : twitterFeed.FirstOrDefault().User.ProfileImageUrl;
+
+                foreach (Status s in twitterFeed)
+                {
+                    statusSb.AppendFormat(" {0}", s.Text.Replace(":", " ").Replace(".", " ").Replace(",", " ").Replace("!", " ").Replace("?", " "));
+                }
+
+                return statusSb.ToString();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private void visualizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(UserModeling.Visualize));
         }
     }
 }

@@ -209,5 +209,11 @@
     <MainPackageIdentityName>andrewlong.comLLC.tilerss</MainPackageIdentityName>
     <MainPackageIdentityName>andrewlong.comLLC.USAHealthcare</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=40744ac4-ea58-4c9d-9f0d-9bc349a56013" />
+  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=40744ac4-ea58-4c9d-9f0d-9bc349a56013">
+    <PackageInfo>
+      <OsMinVersion>6.3.0.0</OsMinVersion>
+      <PackageArchitecture>neutral</PackageArchitecture>
+      <PackageMaxArchitectureVersion>1.0.0.0</PackageMaxArchitectureVersion>
+    </PackageInfo>
+  </PackageInfoList>
 </StoreAssociation>

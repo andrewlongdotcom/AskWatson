@@ -32,14 +32,14 @@
                                    Style="{StaticResource BodyTextBlockStyle}" />
                     </StackPanel>
                 </ListViewItem>
-                <!--<ListViewItem Margin="0,0,0,12">
+                <ListViewItem Margin="0,0,0,12">
                     <StackPanel>
                         <TextBlock Text="User Modeling" Style="{StaticResource SubheaderTextBlockStyle}" />
                         <TextBlock Text="Improved understanding of people's preferences to help engage users on their own terms."
                                    TextWrapping="Wrap"
                                    Style="{StaticResource BodyTextBlockStyle}" />
                     </StackPanel>
-                </ListViewItem>-->
+                </ListViewItem>
             </ListView>
         </ScrollViewer>
 

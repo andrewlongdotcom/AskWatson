@@ -43,6 +43,12 @@ namespace AskWatson
         public static Portable.Models.AskWatsonResponse.Evidencelist SelectedEvidencelist { get; set; }
         #endregion
 
+        #region user modeling data
+        public static string CurrentModelingUsername { get; set; }
+        public static string CurrentModelingResponse { get; set; }
+        public static string CurrentModelingUserProfileImageUrl { get; set; }
+        #endregion
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display
