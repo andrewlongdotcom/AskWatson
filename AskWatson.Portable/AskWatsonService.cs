@@ -27,7 +27,7 @@ namespace AskWatson.Portable
             // TODO: enter your own service-specific credentials
             username_ = "{yourserviceusername}";
             password_ = "{yourservicepassword}";
-             
+            
             knowledgeDomain = knowledgeDomain.ToLower();
             string jsonRequestString = "{\"question\": {\"questionText\": \"" + question.Replace("\"", "'") + "\"}}";
 
@@ -66,7 +66,7 @@ namespace AskWatson.Portable
                 "{0}/api/v2/profile",
                 urlBase_.Replace("qagw", "systemu"));
 
-            string jsonRequestString = "{\"contentItems\": [{\"content\": \"" + body.Replace("\"", "'") + "\"}]}";
+            string jsonRequestString = "{\"contentItems\": [{\"content\": \"" + body.Replace("\"", "'").Replace("\n", "") + "\"}]}";
 
             string jsonResponse = await _GetJsonResponse(
                 url,
